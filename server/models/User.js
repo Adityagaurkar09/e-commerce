@@ -20,8 +20,15 @@ const userSchema = new Schema ({
         type:String,
         default:'user',
     },
+    password:{
+        type:String,
+        require:true,
+    }
+},
+{
+    timestamps:true
 });
 
-const user = model('user', userSchema);
+const User = model('User', userSchema);
 
-export default user;
+export default User;

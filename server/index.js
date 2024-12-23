@@ -6,7 +6,9 @@ import mongoose from 'mongoose'
 dotenv.config();
 
 import {postSignup, postLogin} from './controllers/user.js'
-// import {jwtMiddleware} from './middleware/auth.js'
+import {postProducts,getProduct} from './controllers/products.js';
+import {jwtMiddleware,checkRollMiddleware} from './middleware/auth.js'
+import {postOrder} from './controllers/order.js'
 
 const app = express();
 app.use(express.json());
@@ -34,7 +36,9 @@ app.post("/signup",postSignup);
 app.post("/login",postLogin);
 
 //product
-
+app.post("/product",jwtMiddleware,checkRollMiddleware,postProducts);
+app.get("/product", getProduct)
+app.post("/order",jwtMiddleware,postOrder);
 
 // app.post("/order",jwtMiddleware,(req,res)=>{
 //     res.json({

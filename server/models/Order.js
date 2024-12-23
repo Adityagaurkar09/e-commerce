@@ -1,16 +1,16 @@
 import {model,Schema} from 'mongoose'
-import product from './Products';
+
 
 const orderSchema = new Schema ({
     userId:{  
-        types:Schema.types.ObjectId,
+        type:Schema.Types.ObjectId,
         ref:"user",
         required:true,
     },
     products:[
         {
             productId :{
-                types:Schema.types.ObjectId,
+                type:Schema.Types.ObjectId,
                 ref:"user",
                 required:true,
             },
@@ -31,21 +31,20 @@ const orderSchema = new Schema ({
                 required:true,
              },
              phone:{
-                type:string,
+                type:String,
                 required:true,
              },
              paymentMethod:{
-                type:string,
+                type:String,
                 required:true,
              },
              paymentId:{
-                type:Schema.type.ObjectId,
+                type:Schema.Types.ObjectId,
                 ref:"payment",
-                required:true,
              },
              timeLine:[{
              status:{
-                type:string,
+                type:String,
                 required:true,
              },
              date:{
@@ -62,6 +61,6 @@ const orderSchema = new Schema ({
 
 
 
-const Order = model ("order",orderSchema);
+const Order = model("order",orderSchema);
 
 export default Order;

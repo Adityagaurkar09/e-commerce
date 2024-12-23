@@ -110,7 +110,7 @@ const postLogin = async (req , res) => {
 
      if(passwordMatch){
 
-        const jwtToken = jwt.sign({email: user.email , role:user.role},process.env.JWT_SECRET);
+        const jwtToken = jwt.sign({email: user.email , role:user.role , _id:user._id},process.env.JWT_SECRET);
         res.setHeader("Authorization",`Bearer ${jwtToken}`)
 
          return res.json({

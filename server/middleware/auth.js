@@ -3,7 +3,7 @@
 //jwt middleware use for login reqired //
 
 const jwtMiddleware = async(req,res,next)=>{
-    const jwtToken = req.headers.authorization.split(" ")[1];
+    const jwtToken = req.headers?.authorization?.split(" ")[1];
 
     if(!jwtToken){
         return res.status(401).json({
@@ -24,4 +24,18 @@ const jwtMiddleware = async(req,res,next)=>{
     }
 };
 
-export {jwtMiddleware}
+const checkRollMiddleware = async(req,res,next)=>{
+  const userRole = req?.user?.role;
+  const method = req.method;
+  const path = req.path;
+
+  if(method === "POST" && path === "/product" && userRole!== "admin"){
+    return res.status(403).json({
+      success:false,
+    message:"your not authorized to perform this action "
+   }); 
+  }
+  next ();
+}
+
+export {jwtMiddleware,checkRollMiddleware}

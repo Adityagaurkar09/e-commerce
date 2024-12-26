@@ -36,11 +36,14 @@ const orderSchema = new Schema ({
              },
              paymentMethod:{
                 type:String,
-                required:true,
              },
              paymentId:{
                 type:Schema.Types.ObjectId,
                 ref:"payment",
+             },
+             status:{
+                type:String,
+                default:"pending"
              },
              timeLine:[{
              status:{

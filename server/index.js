@@ -8,7 +8,7 @@ dotenv.config();
 import {postSignup, postLogin} from './controllers/user.js'
 import {postProducts,getProduct} from './controllers/products.js';
 import {jwtMiddleware,checkRollMiddleware} from './middleware/auth.js'
-import {postOrder} from './controllers/order.js'
+import {postOrder ,putOrder} from './controllers/order.js'
 
 const app = express();
 app.use(express.json());
@@ -39,6 +39,7 @@ app.post("/login",postLogin);
 app.post("/product",jwtMiddleware,checkRollMiddleware,postProducts);
 app.get("/product", getProduct)
 app.post("/order",jwtMiddleware,postOrder);
+app.put("/order/:id",jwtMiddleware,putOrder);
 
 // app.post("/order",jwtMiddleware,(req,res)=>{
 //     res.json({

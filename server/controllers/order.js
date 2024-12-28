@@ -1,4 +1,5 @@
 import Order from '../models/Order.js'
+import mongoose from 'mongoose';
 
 const postOrder = async (req,res)=>{
 const {
@@ -46,12 +47,13 @@ const putOrder = async (req,res)=>{
     const user = req.user;
     console.log(user)
 
+
     const {id} = req.params;
+    // console.log(id)
     let order ; 
 
     try{
    order = await Order.findById(id);
-
     if(!order){
         return res.status(404).json({
         success:false,
@@ -62,7 +64,7 @@ const putOrder = async (req,res)=>{
         return res.status(400).json({success:false , message:error.message})
       }
 
-      if(user.role == "user" && order.userId!==user._id){
+      if(user.role == "user" && order.userId!==user._id){ 
         return res.status(401).json({
             success:false,
             message:"Your not authorized this order"
@@ -78,6 +80,9 @@ const putOrder = async (req,res)=>{
         }
         if(req.body.phone){
             order.phone = req.body.phone;
+        }
+        if(req.body.delivaryAdress){
+            order.delivaryAdress = req.body.delivaryAdress;
         }
         if(req.body.status == "cancelled"){
          order.status = "cancelled";
@@ -98,6 +103,9 @@ const putOrder = async (req,res)=>{
     })
 }
 
+
+
+
 export{postOrder , putOrder};
 
 
@@ -112,4 +120,19 @@ export{postOrder , putOrder};
 //             "date":"2024/12/20"
 //         }
 //     ]
+// }
+
+// {
+//     "products":[
+//         {
+//             "productId":"67681a7f2f312a582f218212",
+//             "quantity":"30",
+//             "price":30
+//         }
+//     ],
+//     "totalBill":"240",
+//      "delivaryAdress":"pune",
+//      "phone":"8010825030",
+//      "paymentMethod":"cash on delivary"
+
 // }

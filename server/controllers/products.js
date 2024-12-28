@@ -53,7 +53,7 @@ const getProduct = async(req,res) => {
     ).limit(parseInt (limit || 100))
 
     res.json({
-        success:false,
+        success:true,
         message:"product fetch succesfully",
         data : product,
     })

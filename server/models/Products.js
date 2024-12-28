@@ -36,9 +36,9 @@ tags:{
     timestamps:true,
 });
 
-const product = model ("product",productSchema);
+const Product = model ("Product",productSchema);
 
-export default product;
+export default Product;
 
 // const product = {
 //     name : "Lenovo IdeaPad 1 AMD Athlon Dual Core 7120U ",

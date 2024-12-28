@@ -1,7 +1,7 @@
 import { model , Schema } from "mongoose";
 
 const paymentSchema = new Schema ({
-    paymentMode:{
+    paymentMethod:{
         type:String,
         required:true,
     },
@@ -21,6 +21,6 @@ const paymentSchema = new Schema ({
     timestamps:true
 })
 
-const Payment = model ("payment" ,paymentSchema )
+const Payment = model ("Payment" ,paymentSchema )
 
 export default Payment;

@@ -4,14 +4,14 @@ import {model,Schema} from 'mongoose'
 const orderSchema = new Schema ({
     userId:{  
         type:Schema.Types.ObjectId,
-        ref:"user",
+        ref:"User",
         required:true,
     },
     products:[
         {
             productId :{
                 type:Schema.Types.ObjectId,
-                ref:"user",
+                ref:"Product",
                 required:true,
             },
             quantity:{
@@ -36,14 +36,15 @@ const orderSchema = new Schema ({
              },
              paymentMethod:{
                 type:String,
+                required:true,
              },
              paymentId:{
                 type:Schema.Types.ObjectId,
-                ref:"payment",
+                ref:"Payment",
              },
              status:{
                 type:String,
-                default:"pending"
+                default:"pending",
              },
              timeLine:[{
              status:{
@@ -64,6 +65,6 @@ const orderSchema = new Schema ({
 
 
 
-const Order = model("order",orderSchema);
+const Order = model("Order",orderSchema);
 
 export default Order;

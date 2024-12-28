@@ -8,7 +8,7 @@ dotenv.config();
 import {postSignup, postLogin} from './controllers/user.js'
 import {postProducts,getProduct} from './controllers/products.js';
 import {jwtMiddleware,checkRollMiddleware} from './middleware/auth.js'
-import {postOrder ,putOrder} from './controllers/order.js'
+import {postOrder ,putOrder ,getOrderById} from './controllers/order.js'
 import {postPayments} from './controllers/payment.js'
 
 
@@ -39,9 +39,14 @@ app.post("/login",postLogin);
 
 //product
 app.post("/product",jwtMiddleware,checkRollMiddleware,postProducts);
-app.get("/product", getProduct)
+app.get("/product", getProduct);
+
+//order api
 app.post("/order",jwtMiddleware,postOrder);
 app.put("/order/:id",jwtMiddleware,putOrder);
+app.get("/order/:id",jwtMiddleware,getOrderById);
+
+//payment api
 app.post("/payments",postPayments);
 
 

@@ -1,16 +1,36 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './index.css';
-import { Home as Homeicon , Camera as Cameraicon} from "lucide-react";
+import Home from './views/Home';
+import Login from './views/Login';
+import Signup from './views/Signup';
+import NotFound from './views/404';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
+
+const router = createBrowserRouter([
+  {
+    path : "/",
+    element:<Home/>,
+  },
+  {
+    path : "/login",
+    element:<Login/>,
+  },
+  {
+    path : "/signup",
+    element:<Signup/>,
+  },
+  {
+    path : "*",
+    element:<NotFound/>,
+  },
+])
+
 root.render(
-   <>
-    <h1 class="text-red-500 font-bold underline">
-    Hello world!</h1>
-    <Homeicon  size={64}/>
-    <Cameraicon size={64}/>
-    </>
+<RouterProvider router={router}/>
   );
 
+                                  
                                   

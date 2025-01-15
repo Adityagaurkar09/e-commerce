@@ -1,3 +1,4 @@
+import { responder } from '../utils/utils.js';
 import Order from './../models/Order.js';
 import Payment from './../models/Payment.js';
  
@@ -9,21 +10,16 @@ import Payment from './../models/Payment.js';
        order = await Order.findById(orderId);
     }
     catch(error){
-        return res.status(400).json({success:false,message:error.message});
+        return responder (res,false,error.message,400)
+        
     }
 
        if(!order){
-        return res.status(400).json({
-            success:false,
-            message:"order not does not exist",
-        })
+        return responder (res, false, "order not does not exist", 400)
        }
 
        if(order.status.toLowerCase() =="delivered" || order.status.toLowerCase() =="cancelled"){
-        return res.status(400).json({
-            success:false,
-            message:`order already ${order.status}`,
-        })
+        return responder (res, false, `order already ${order.status}`,400)
        }
 
        const payment = new Payment ({
@@ -42,11 +38,12 @@ import Payment from './../models/Payment.js';
 
        await order.save();
 
-       return res.json({
-        success:true,
-        message:"payment completed successfully",
-        data:savePayment
-       })
+    //    return res.json({
+    //     success:true,
+    //     message:"payment completed successfully",
+    //     data:savePayment
+    //    })
+    return responder(res,true,"payment completed successfully",savePayment)
 
        } catch(error){return res.status(400).json({success:false, nessage:error.message})}
  };

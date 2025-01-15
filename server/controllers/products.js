@@ -4,6 +4,7 @@
 
 
 import Product from '../models/Products.js'
+import { responder } from '../utils/utils.js';
 
 const postProducts = async(req,res)=>{
     const {name , shortDescription,longDescription,price,currentPrice,category,images,tags} = req.body;
@@ -16,9 +17,8 @@ const postProducts = async(req,res)=>{
 
 for(const field of mandataryField){
     if(!req.body[field]){
-        return res.status(400).json({success:false , message:`${field} is required`});
-    }
-}
+        return responder (res, false, `${field} is required`, 400)
+    }}
 
 const newProduct = new Product ({
     name , shortDescription,longDescription,price,currentPrice,category,images,tags
@@ -26,20 +26,11 @@ const newProduct = new Product ({
 
 try{
     const savedProduct = await newProduct.save();
-    return res.json({
-        success:true,
-        message:"products created succesfully",
-        data:savedProduct
-    })
+    return responder (res, true , "products created succesfully" , savedProduct)
 }
 catch(error){
-    return res(400).json({
-        success:false,
-        message:error.message
-    })
-}
-   
-};
+    return responder (res, false , error.message , 400)
+}};
 
 const getProduct = async(req,res) => {
     const {limit,search} = req.query;
@@ -48,16 +39,16 @@ const getProduct = async(req,res) => {
         name : {
             $regex : new RegExp(search||""),
             $options: "i"  
-           }
-    }
+           }}
     ).limit(parseInt (limit || 100))
 
-    res.json({
-        success:true,
-        message:"product fetch succesfully",
-        data : product,
-    })
+    // res.json({
+    //     success:true,
+    //     message:"product fetch succesfully",
+    //     data : product,
+    //     return responder (res, true , "products fetch succesfully" , product)
+    // })
 
-}
-
+    return responder (res, true , "products fetch succesfully" , product)
+};
 export {postProducts , getProduct};

@@ -1,4 +1,5 @@
 import Order from '../models/Order.js'
+import { responder } from '../utils/utils.js';
 import mongoose from 'mongoose';
 
 const postOrder = async (req,res)=>{
@@ -10,10 +11,7 @@ const {
 } = req.body;
 
     if(!products || !delivaryAdress || !phone || !paymentMethod){
-        return res.json({
-            success:false,
-            message:"products,totalBill,delivaryAdress,phone,paymentMethod All field Required"
-        })
+        return responder (res,false,"products,totalBill,delivaryAdress,phone,paymentMethod All field Required")
     }
 
     let totalBill = 0 ; 
@@ -55,28 +53,19 @@ const putOrder = async (req,res)=>{
     try{
    order = await Order.findById(id);
     if(!order){
-        return res.status(404).json({
-        success:false,
-        message:"order not found"
-      })
+        return responder (res, false , "order not found " , 404)
       }}
       catch(error){
-        return res.status(400).json({success:false , message:error.message})
+        return responder (res, false , error.message, 400)
       }
 
       if(user.role == "user" && order.userId!==user._id){ 
-        return res.status(401).json({
-            success:false,
-            message:"Your not authorized this order"
-          })
+        return responder (res, false , "Your not authorized this order" , 401)
       }
 
       if(user.role == "user"){
         if(order.status!= "delivered" ){
-            return res.status(400).json({
-                success:false,
-                message:"order has been allready deliverd"
-            });
+            return responder (res, false,"order has been allready deliverd",400 )
         }
         if(req.body.phone){
             order.phone = req.body.phone;
@@ -96,11 +85,7 @@ const putOrder = async (req,res)=>{
       
       const updateOrder = await Order.findById(id);
 
-    return res.json({
-        success:true,
-        message:"Order updated successfully",
-        data:updateOrder
-    })
+      return responder (res,true,"Order updated successfully",updateOrder)
 }
 
 const getOrderById = async (req,res)=>{
@@ -112,26 +97,16 @@ const getOrderById = async (req,res)=>{
     try{
         order = await Order.findById(id).populate("userId","name email").populate("products.productId","-shortDescription -longDescription -images  -createdAt -updatedAt  -tags -__v").populate("paymentId"," -createdAt -updatedAt -__v");
     if(!order){
-        return res.status(404).json({
-            success:false,
-            message:"order not found"
-        })
+        return responder (res, false , "order not found " , 404)
     }}
     catch(error){
         return res.status(400).json({success:false , message:error.message});
     }
 
     if(user._id!=order.userId && user.role!="admin"){
-        return res.status(401).json({
-            success:false,
-            message:"Your not authorized view this order"
-        })
+        return responder (res, false , "Your not authorized view this order " , 401)
     }
-    return res.json({
-        success:true,
-        message:"order fetch successfully",
-        data:order,
-    })
+    return responder (res, true , "order fetch successfully" , order)
 }
 
 const getOrderByUserId = async (req , res) => {
@@ -141,19 +116,12 @@ const getOrderByUserId = async (req , res) => {
 
 
     if(user._id!=id && user.role!="admin"){
-        return res.status(400).json({
-            success:false,
-            message:"Your not authorized view this order"
-        })
+        return responder (res, false , "Your not authorized view this order" , 400)
     }
 
     const order = await Order.find ({userId:id }).populate("userId","name email").populate("products.productId","-shortDescription -longDescription -images  -createdAt -updatedAt  -tags -__v").populate("paymentId"," -createdAt -updatedAt -__v");
 
-    return res.json({
-        success:true,
-        message:"order fetch successfully",
-        data:order,
-    })
+    return responder (res, true , "order fetch successfully" , order)
 }
 
 

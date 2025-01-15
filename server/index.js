@@ -11,6 +11,8 @@ import {jwtMiddleware,checkRollMiddleware} from './middleware/auth.js'
 import {postOrder ,putOrder ,getOrderById ,getOrderByUserId} from './controllers/order.js'
 import {postPayments} from './controllers/payment.js'
 
+import { responder} from '../server/utils/utils.js'
+
 
 const app = express();
 app.use(express.json());
@@ -27,11 +29,12 @@ const conectDB = async()=>{
     }
 };
 app.get("/health",(req,res)=>{
-    res.json({
-        success:true,
-        message:"server is runing"
+    // res.json({
+    //     success:true,
+    //     message:"server is runing"
+    return responder (res,true,"server is runing")
     })
-})
+
 
 //auth
 app.post("/signup",postSignup);
@@ -61,11 +64,12 @@ app.post("/payments",postPayments);
 
 
 app.use("*/",(req,res)=>{
-    res.status(404).json({
-        success:false,
-        message:"rout not Found"
+    // res.status(404).json({
+    //     success:false,
+    //     message:"rout not Found"
+    return responder(res,false,"rout not Found",null,404,)
     })
-})
+
 
 const PORT = process.env.PORT || 5002;
 

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Input from '../components/input.js'
 import Button from '../components/Button.js'
+import axios from 'axios'
 
 function Signup() {
 
@@ -12,9 +13,14 @@ function Signup() {
   phone: '',
   adress: ''
   })
+
+  const processSignup = async () => {
+   const response = await axios.post (`${process.env.REACT_APP_API_URL}/signup`)
+   console.log(response)
+  }
   return (
     <div className='bg-blue-200 w-full h-screen flex flex-col items-center justify-center '>
-      <h1>Signup</h1>
+      <h1 className='text-3xl'>Signup</h1>
 
       <div className='bg-white w-[400px] h-[600px] rounded-2xl shadow-lg hover:shadow-xl px-4 py-6 my-5' >
         
@@ -65,9 +71,14 @@ function Signup() {
       setSignupData({...signupData, rePassword:val})
      }}
      />
-   <div>
-     <Button label="Signup" onClick={()=>console.log
-          (signupData)} varient={"primary"}/>
+   <div className='flex justify-around'>
+     <Button label="Signup" 
+     onClick={()=>processSignup()} 
+          varient={"primary"}/>
+
+            <Button label="Cancel" 
+            onClick={()=>{window.location.href = "/"}}
+             varient={"secondary"}/>
    </div>
          </div>
     </div>

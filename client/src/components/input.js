@@ -8,7 +8,7 @@ function Input({label,val,onChange,type="text" , placeholder=""}) {
      <input type ={type}
       placeholder={placeholder}
       id={inputId}
-      className='px-2 w-full border border-gray-300 focus:outline-none rounded-md'
+      className='px-2 w-full border border-gray-300 focus:outline-none rounded-md my-2'
      value={val} 
      onChange={(e) => onChange(e.target.value)}
      />

@@ -64,7 +64,7 @@ const postSignup = async(req,res)=>{
 
     return res.json({
         success:true,
-        message:"signup succesfull",
+        message:"signup succesfull , Please login",
         data:{
             name: savedUser.name,
             email: savedUser.email,
@@ -78,6 +78,13 @@ const postSignup = async(req,res)=>{
     //     success:false,
     //     message:error.message
     //     }); 
+    
+    if(error.message.includes("duplicate key error")){
+        // return res
+        // .status(400)
+        // .json({success:false, message:`Dupicate Record ${error.keyValue}`}); 
+        return responder (res, false , `${Object.keys(error.keyValue)} ${Object.values(error.keyValue)} already exist` , 400)
+    }
     return responder (res, false , error.message , 400)
 }};
 

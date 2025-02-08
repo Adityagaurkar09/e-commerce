@@ -7,11 +7,11 @@ const postSignup = async(req,res)=>{
     const {name, email,phone, adress, password, rePassword} = req.body;
 
     if(!password){
-        // // return res.status(400).json({
-        // //     success:false,
-        // //     message:"Password is required"
-        //     }); 
-        return responder (res, false , "Password is required" , 400)
+        return res.status(400).json({
+            success:false,
+            message:"Password is required"
+            }); 
+        // return responder (res, false , "Password is required" , 400)
     }
 
     if(password!==rePassword){
@@ -22,31 +22,35 @@ const postSignup = async(req,res)=>{
     }
      
     if(!name){
-        return responder (res, false , "Name is required" , 400)
+        return res.status(400).json({
+            success:false,
+            message:"name is required"
+            }); 
+        // return responder (res, false , "Name is required" , 400)
     }
 
     if(!email){
-        // return res.status(400).json({
-        //     success:false,
-        //     message:"Email is required"
-        //     }); 
-        return responder (res, false , "Email is required" , 400)
+        return res.status(400).json({
+            success:false,
+            message:"Email is required"
+            }); 
+        // return responder (res, false , "Email is required" , 400)
     }
 
     if(!phone){
-        // return res.status(400).json({
-        //     success:false,
-        //     message:"Phone is required"
-        //     }); /
-        return responder (res, false , "Phone is required" , 400)
+        return res.status(400).json({
+            success:false,
+            message:"Phone is required"
+            }); 
+        // return responder (res, false , "Phone is required" , 400)
     }
 
     if(!adress){
-        // return res.status(400).json({
-        //     success:false,
-        //     message:"Adress is required"
-        //     }); 
-        return responder (res, false , "Adress is required" , 400)
+        return res.status(400).json({
+            success:false,
+            message:"Adress is required"
+            }); 
+        // return responder (res, false , "Adress is required" , 400)
     }
 
      const salt = bcrypt.genSaltSync(10)
@@ -74,18 +78,18 @@ const postSignup = async(req,res)=>{
     });
 
 } catch (error){
-    // return res.status(400).json({
-    //     success:false,
-    //     message:error.message
-    //     }); 
-    
+
     if(error.message.includes("duplicate key error")){
-        // return res
-        // .status(400)
-        // .json({success:false, message:`Dupicate Record ${error.keyValue}`}); 
-        return responder (res, false , `${Object.keys(error.keyValue)} ${Object.values(error.keyValue)} already exist` , 400)
+        return res.status(400).json({
+        success:false,
+        message:`${Object.keys(error.keyValue)} ${Object.values(error.keyValue)} already exist`}); 
+        // return responder (res, false , `${Object.keys(error.keyValue)} ${Object.values(error.keyValue)} already exist` , 400)
     }
-    return responder (res, false , error.message , 400)
+        return res.status(400).json({
+        success:false,
+        message:error.message
+        }); 
+    // return responder (res, false , error.message , 400)
 }};
 
 
@@ -120,15 +124,20 @@ const postLogin = async (req , res) => {
          }
 
          const passwordMatch = bcrypt.compareSync(password , user.password)
+         const userDetail = {email: user.email ,
+             role:user.role ,
+              _id:user._id,
+               name:user.name}
 
      if(passwordMatch){
 
-        const jwtToken = jwt.sign({email: user.email , role:user.role , _id:user._id},process.env.JWT_SECRET);
+        const jwtToken = jwt.sign(userDetail,process.env.JWT_SECRET);
         res.setHeader("Authorization",`Bearer ${jwtToken}`)
 
          return res.json({
             success:true,
             token:jwtToken,
+            data:userDetail,
              message:"Loging succesfull"
              }); 
             }

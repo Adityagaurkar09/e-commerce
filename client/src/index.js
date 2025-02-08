@@ -7,6 +7,7 @@ import Login from './views/Login';
 import Signup from './views/Signup';
 import NotFound from './views/404';
 import './index.css';
+import Dashboard from './views/Dashboard';
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
   {
     path : "/signup",
     element:<Signup/>,
+  },
+  {
+    path : "/Dashboard",
+    element:<Dashboard/>,
   },
   {
     path : "*",

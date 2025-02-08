@@ -1,3 +1,9 @@
+const UserDetailRow = ({ icon, value }) => {
+    return(
+        <p className='flex items-center mb-4 text-xl '> {icon}<span className='ms-4'/>{value}</p>
+    )
+}
+
 const getCurrentUser = () => {
     const user = localStorage.getItem("e-commerce-user-details");
 
@@ -28,4 +34,4 @@ const logout = () => {
     }, 3000);
 }
 
-export { getCurrentUser, jwtToken, logout }
+export { getCurrentUser, jwtToken, logout ,UserDetailRow }

@@ -34,9 +34,9 @@ const router = createBrowserRouter([
   },
 ])
 
-root.render(
+root.render(<div className='bg-zinc-100 min-h-screen'> 
 <RouterProvider router={router}/>
-  );
+ </div>) ;
 
                                   
                                   

@@ -8,6 +8,7 @@ import Signup from './views/Signup';
 import NotFound from './views/404';
 import './index.css';
 import Dashboard from './views/Dashboard';
+import UserOrder from './views/UserOrder';
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
   {
     path : "/Dashboard",
     element:<Dashboard/>,
+  },
+  {
+    path : "/userorders",
+    element:<UserOrder/>,
   },
   {
     path : "*",

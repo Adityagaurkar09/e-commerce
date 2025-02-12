@@ -11,7 +11,7 @@ const {
 } = req.body;
 
     if(!products || !delivaryAdress || !phone || !paymentMethod){
-        return responder (res,false,"products,totalBill,delivaryAdress,phone,paymentMethod All field Required")
+        return responder (res,false,"products,delivaryAdress,phone,paymentMethod All field Required")
     }
 
     let totalBill = 0 ; 

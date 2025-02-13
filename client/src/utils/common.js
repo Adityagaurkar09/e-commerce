@@ -22,7 +22,7 @@ const jwtToken = () => {
         return null;
     }
     else{
-        return token;
+        return `bearer ${token}`;
     }
 }
 
@@ -34,4 +34,11 @@ const logout = () => {
     }, 3000);
 }
 
-export { getCurrentUser, jwtToken, logout ,UserDetailRow }
+//date time dikane ke lie
+const getReadableTimeStamp = (date) => {
+    const dateObj = new Date(date);
+    
+    return `${dateObj.getDate()}/${dateObj.getMonth()}/${dateObj.getFullYear()} ${dateObj.getHours()}:${dateObj.getMinutes()}`;
+  };
+
+export { getCurrentUser, jwtToken, logout ,UserDetailRow ,getReadableTimeStamp }

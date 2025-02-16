@@ -52,3 +52,6 @@ const getProduct = async(req,res) => {
     return responder (res, true , "products fetch succesfully" , product)
 };
 export {postProducts , getProduct};
+
+
+

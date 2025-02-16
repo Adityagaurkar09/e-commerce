@@ -32,9 +32,6 @@ function Dashboard() {
 <div className=' flex mx-10'>
 
 
-
-
-
 <Link to='/userorders'className='block text-center text-xl mb-4 mx-1'>
 <TruckIcon className='mx-auto inline' size={42}/>
 <span>My Order</span>

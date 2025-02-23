@@ -18,8 +18,11 @@ import Payment from './../models/Payment.js';
         return responder (res, false, "order not does not exist", 400)
        }
 
-       if(order.status.toLowerCase() =="delivered" || order.status.toLowerCase() =="cancelled"){
-        return responder (res, false, `order already ${order.status}`,400)
+       if (["delivered", "cancelled"].includes(order.status.toLowerCase())) {
+         return res.status(400).json({
+           success: false,
+           message: `This order has already been ${order.status}`,
+         });
        }
 
        const payment = new Payment ({

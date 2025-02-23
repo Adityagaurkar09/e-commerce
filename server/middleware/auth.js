@@ -29,7 +29,7 @@ const checkRollMiddleware = async(req,res,next)=>{
   const method = req.method;
   const path = req.path;
 
-  if(method === "POST" && path === "/product" && userRole!== "admin"){
+  if(method === "POST" && path === "/products" && userRole!== "admin"){
     return res.status(403).json({
       success:false,
     message:"your not authorized to perform this action "

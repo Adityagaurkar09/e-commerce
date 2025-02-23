@@ -59,8 +59,14 @@ const putOrder = async (req,res)=>{
         return responder (res, false , error.message, 400)
       }
 
-      if(user.role == "user" && order.userId!==user._id){ 
-        return responder (res, false , "Your not authorized this order" , 401)
+      if (user.role == "user" && order.userId != user._id) {
+        return responder(
+          res,
+          false,
+          "You are not authorized to update this order",
+          null,
+          401
+        );
       }
 
       if(user.role == "user"){
@@ -95,7 +101,9 @@ const getOrderById = async (req,res)=>{
 
     let order;
     try{
-        order = await Order.findById(id).populate("userId","name email").populate("products.productId","-shortDescription -longDescription -images  -createdAt -updatedAt  -tags -__v").populate("paymentId"," -createdAt -updatedAt -__v");
+        order = await Order.findById(id).populate("userId","name email")
+        .populate("products.productId","-shortDescription -longDescription -images  -createdAt -updatedAt  -tags -__v")
+        .populate("paymentId"," -createdAt -updatedAt -__v");
     if(!order){
         return responder (res, false , "order not found " , 404)
     }}
@@ -103,9 +111,15 @@ const getOrderById = async (req,res)=>{
         return res.status(400).json({success:false , message:error.message});
     }
 
-    if(user._id!=order.userId && user.role!="admin"){
-        return responder (res, false , "Your not authorized view this order " , 401)
-    }
+    if (user._id != order.userId && user.role != "admin") {
+        return responder(
+          res,
+          false,
+          "You are not authorized to view this order",
+          null,
+          401
+        );
+      }
     return responder (res, true , "order fetch successfully" , order)
 }
 
@@ -113,17 +127,16 @@ const getOrderByUserId = async (req , res) => {
     const user = req.user;
     const {id} =req.params;
 
-
-
     if(user._id!=id && user.role!="admin"){
         return responder (res, false , "Your not authorized view this order" , 400)
     }
-
-    const order = await Order.find ({userId:id }).populate("userId","name email").populate("products.productId","-shortDescription -longDescription -images  -createdAt -updatedAt  -tags -__v").populate("paymentId"," -createdAt -updatedAt -__v");
+    const order = await Order.find ({userId:id })
+    .populate("userId","name email ")
+    .populate("products.productId"," -longDescription -createdAt -updatedAt  -tags -__v")
+    .populate("paymentId"," -createdAt -updatedAt -__v");
 
     return responder (res, true , "order fetch successfully" , order)
 }
-
 
 export{postOrder , putOrder ,getOrderById ,getOrderByUserId};
 

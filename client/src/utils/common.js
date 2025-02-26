@@ -41,4 +41,17 @@ const getReadableTimeStamp = (date) => {
     return `${dateObj.getDate()}/${dateObj.getMonth()}/${dateObj.getFullYear()} ${dateObj.getHours()}:${dateObj.getMinutes()}`;
   };
 
-export { getCurrentUser, jwtToken, logout ,UserDetailRow ,getReadableTimeStamp }
+  //length of text decrease karne ke lie
+  const shortText = (text, maxLength = 50) => {
+    if(!text){
+        return "";
+    }
+    if(text.length <= maxLength){
+        return text;
+    }
+    let shortText = text.substring (0, maxLength - 3);
+     shortText += " ...";
+     return shortText;
+  }
+
+export { getCurrentUser, jwtToken, logout ,UserDetailRow ,getReadableTimeStamp, shortText }

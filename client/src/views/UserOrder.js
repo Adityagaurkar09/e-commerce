@@ -65,7 +65,7 @@ import OrderCard from '../components/OrderCard';
       const {_id,products, totalBill, delivaryAdress,phone, paymentMethod, status, createdAt} = selectOrder;
 
       return(
-     <div className='min-h-screen bg-gray-400  fixed top-0 left-0 w-full bg-opacity-75 z-50 justify-center items-center flex 'onClick={onClose}>
+     <div className='min-h-screen bg-gray-400  fixed top-0 left-0 w-full bg-opacity-75 z-50 justify-center items-center flex 'onClick={onClose} >
       <div className='bg-white w-1/2 min-h-96 rounded-md px-5 py-2'onClick={(e)=>e.stopPropagation()}>
       <button className='text-red-500'onClick={onClose}>Close</button>
       <h1>Order details</h1>
@@ -83,8 +83,10 @@ import OrderCard from '../components/OrderCard';
 
         return(
           <div> 
-          <img src={images} alt={name} className='w-20 h-20'/>
+          <img src={images[0]} alt={name} className='w-20 h-20'/>
+          <div>
           <p>{name}</p>
+          </div>
           </div>
       )
       })}

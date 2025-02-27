@@ -22,7 +22,11 @@ function Home() {
 
   return (
     <div>
-      Home
+      <div className='flex justify-center py-10'>
+        <input type='text'
+        placeholder='serch products'
+        className='border border-gray-200 p-2 w-1/2 rounded-md text-2xl'/>
+      </div>
       <div className='flex flex-wrap justify-center'>
       {products.map((product) => {
         return <ProductCard key={product._id} {...product} />

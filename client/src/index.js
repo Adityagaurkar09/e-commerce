@@ -9,6 +9,7 @@ import NotFound from './views/404';
 import './index.css';
 import Dashboard from './views/Dashboard';
 import UserOrder from './views/UserOrder';
+import Cart from './views/Cart';
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
   {
     path : "/userorders",
     element:<UserOrder/>,
+  },
+  {
+    path : "/user/cart",
+    element:<Cart/>,
   },
   {
     path : "*",

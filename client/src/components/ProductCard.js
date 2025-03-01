@@ -5,8 +5,10 @@ import { ChevronLeft as LeftArrow,
    Plus as PlusIcon,
    Minus as MinusIcon } from "lucide-react";
 import Button from './Button'
+import toast from 'react-hot-toast';
 
 function ProductCard({
+  _id,
     name,
     price,
     currentPrice,
@@ -28,6 +30,34 @@ function ProductCard({
     const currentIndex = images.indexOf(currentImage);
     const newIndex = currentIndex < images.length - 1 ? currentIndex + 1 : 0;
     setCurrentImage(images[newIndex]);
+  };
+
+  //order add to cart krne ke lie
+  const handleAddToCart = () => {
+     const cart = JSON.parse(localStorage.getItem("cart")) || []; //phle se cart h to usme add krdo nhi to empty array bna do
+
+    const product = {
+      productId : _id,
+      price : currentPrice,
+      name:name,
+      image:currentImage,
+      quantity : quantity
+    }
+
+    let exitingProductIndex = -1;
+
+    cart.forEach ((item,index) => {
+      if(item.productId === _id){
+        exitingProductIndex = index;
+      }
+    })
+    if(exitingProductIndex > -1){
+      cart[exitingProductIndex].quantity = quantity;
+    }else{
+      cart.push(product);
+    }
+    localStorage.setItem("cart",JSON.stringify(cart))
+    toast.success("Product added to cart")
   };
 
   return (
@@ -63,7 +93,7 @@ function ProductCard({
       <PlusIcon className='currsor-pointer' onClick={()=>setQuantity(quantity + 1)}/>
      </div>
      <div className='flex justify-center'>
-     <Button label="add to card" varient="primary"/>
+     <Button label="add to card" varient="primary" onClick={handleAddToCart }/>
      </div>
     </div>
   )

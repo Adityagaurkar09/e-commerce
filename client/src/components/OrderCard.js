@@ -5,7 +5,7 @@ import {getReadableTimeStamp} from '../utils/common.js'
 
 function OrderCard({order, onClick}) {
   const {_id ,status,products, createdAt, totalBill, delivaryAdress} = order;
-    // console.log(order);
+    //  console.log(order);
   return (
     <div className='border p-4 m-4 bg-white-600 rounded-lg' onClick={onClick}>
       <p>Order Id : {_id}, Order On : {getReadableTimeStamp(createdAt)}</p>

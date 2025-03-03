@@ -8,6 +8,16 @@ function Cart() {
     const storedCart = JSON.parse(localStorage.getItem('cart')|| '[]');
     setCart(storedCart);
     }
+
+    const removeItemFromCart = (productId) => {
+     const indexOfProduct = cart.findIndex((product)=> product.productId === productId);
+
+     if(indexOfProduct > -1){
+      cart.splice(indexOfProduct,1);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      loadCart();
+     }
+    }
     
     useEffect(() => {
       let totalValue = 0;
@@ -27,12 +37,12 @@ function Cart() {
       <h1 className='text-4xl text-center'>views Cart</h1>
       <div className='flex flex-wrap flex-column justify-center '>
         {cart.map((product)=>{
-            const{name, image, price, _id, quantity} = product;
+            const{name, image, price, productId, quantity} = product;
             const totalValue = price * quantity;
 
             return (
 
-                <div className='bg-white shadow-lg m-5 p-5 w-full md:w-2/3 relative roundeed-lg overflow-hidden flex'>
+                <div className='bg-white shadow-lg m-5 p-5 w-full md:w-2/3 relative roundeed-lg overflow-hidden flex' key={productId}>
                   <img 
                   src={image}
                   alt={name}
@@ -43,6 +53,9 @@ function Cart() {
                     <p className='text-lg'>quantity : {quantity}</p>
                     <p className='text-lg'> Total Amount : {totalValue}</p>
                     </div>
+                    <button className='absolute top-5 right-5 bg-red-500 text-white px-2 py-1 rounded-md' 
+                    onClick={()=>removeItemFromCart(productId)}>
+                      Remove</button>
                     </div>
             )
         })}

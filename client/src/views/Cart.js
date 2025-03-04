@@ -1,8 +1,15 @@
 import React, { useEffect, useState } from 'react'
+import toast, { Toaster } from 'react-hot-toast';
+import Input from '../components/input';
+import Button from '../components/Button';
 
 function Cart() {
     const [cart, setCart] = useState([]);
     const [total , setTotal] = useState(0);
+    const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+    const [name, setName] = useState('');
+    const [adress, setAdress] = useState('');
+    const [paymentMethod, setPaymentMethod] = useState('  COD');
     
     const loadCart = () => {
     const storedCart = JSON.parse(localStorage.getItem('cart')|| '[]');
@@ -17,6 +24,7 @@ function Cart() {
       localStorage.setItem('cart', JSON.stringify(cart));
       loadCart();
      }
+     toast.success('Product removed from cart');
     }
     
     useEffect(() => {
@@ -31,6 +39,48 @@ function Cart() {
     useEffect(() => {
         loadCart();
     }, []);
+
+    const CheckoutDialog = ({isOpen , onClose}) => {
+      if (!isOpen) return null;
+
+      return(
+        <div className='fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center'
+         onClick={onClose}>
+          <div className='bg-white p-5  rounded-lg w-[250px] '
+// e.stopPropagation e use kiya hai q ki parntens pe click karte hai toh dialog close nahi hona chahiye 
+
+          onClick={(e) => e.stopPropagation()}>
+          <h2>CheckOut view</h2>
+
+<Input label="name" 
+placeholder='enter name'
+value={name}
+onChange={(value) => setName(value)}
+/>
+
+<Input label="adress" 
+placeholder='enter adress'
+value={adress}
+onChange={(value) => setAdress(value)}
+/>
+
+<label>Payment Method</label>
+<select
+value={paymentMethod}
+onChange={(e) => setPaymentMethod(e.target.value)}
+className='px-2 w-full border border-gray-300 focus:outline-none rounded-md my-3'
+>
+<option value="COD">Cash on Delivery</option>
+<option value="Online">Online</option>
+</select>
+
+<div className='flex justify-center '>
+<Button label="Complet Order" onClick={onClose} varient="primary"></Button>
+</div>
+            </div>
+        </div>
+      )
+    }
 
   return (
     <div>
@@ -60,9 +110,18 @@ function Cart() {
             )
         })}
         </div>
-      <div>
-        <h1 className='rext-2xl text-center py-10'>Total Amount : {total}</h1>
+      <div className='flex justify-center items-center '>
+        <span className='rext-2xl text-center py-10 mx-10 '>Total Amount : {total}</span>
+        <button
+          className="bg-blue-500 text-white px-5 py-2 rounded-lg"
+          onClick={() => setIsCheckoutOpen(true)}
+        >CheckOut 
+        </button>
       </div>
+      <CheckoutDialog 
+      isOpen={isCheckoutOpen} 
+      onClose={()=>{setIsCheckoutOpen(false)}}/>
+      <Toaster/>
     </div>
   )
 }

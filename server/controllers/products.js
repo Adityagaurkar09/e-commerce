@@ -32,25 +32,44 @@ catch(error){
     return responder (res, false , error.message , 400)
 }};
 
-const getProduct = async(req,res) => {
-    const {limit,search} = req.query;
-
-    const product = await Product.find({
-        name : {
-            $regex : new RegExp(search||""),
-            $options: "i"  
-           }}
-    ).limit(parseInt (limit || 100))
-
-    // res.json({
-    //     success:true,
-    //     message:"product fetch succesfully",
-    //     data : product,
-    //     return responder (res, true , "products fetch succesfully" , product)
-    // })
-
-    return responder (res, true , "products fetch succesfully" , product)
-};
+    const getProduct = async (req, res) => {
+        const { limit } = req.query;
+      
+        let { search } = req.query;
+      
+        search = search.replaceAll("\\", "");
+        // replace all backslashes with empty string
+      
+        const product = await Product.find({
+          $or: [
+            {
+              name: {
+                $regex: new RegExp(search || ""),
+                $options: "i",
+              },
+            },
+            // "i" is for case-insensitive
+            {
+              shortDescription: {
+                $regex: new RegExp(search || ""),
+                $options: "i",
+              },
+            },
+            {
+              longDescription: {
+                $regex: new RegExp(search || ""),
+                $options: "i",
+              },
+            },
+          ],
+        }).limit(parseInt(limit || 100));
+      
+        return res.json({
+          success: true,
+          data: product,
+          message: "Products fetched successfully",
+        });
+      };
 export {postProducts , getProduct};
 
 

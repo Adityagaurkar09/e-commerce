@@ -131,6 +131,7 @@ const getOrderByUserId = async (req , res) => {
         return responder (res, false , "Your not authorized view this order" , 400)
     }
     const order = await Order.find ({userId:id })
+    // .sort({createdAt:-1})  // letest order first
     .populate("userId","name email ")
     .populate("products.productId"," -longDescription -createdAt -updatedAt  -tags -__v")
     .populate("paymentId"," -createdAt -updatedAt -__v");

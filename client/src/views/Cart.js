@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import toast, { Toaster } from 'react-hot-toast';
 import Input from '../components/input';
 import Button from '../components/Button';
+import axios from 'axios';
+import { jwtToken } from "../utils/common"
 
 function Cart() {
     const [cart, setCart] = useState([]);
@@ -9,7 +11,9 @@ function Cart() {
     const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
     const [name, setName] = useState('');
     const [adress, setAdress] = useState('');
+    const [phone, setPhone] = useState('');                 
     const [paymentMethod, setPaymentMethod] = useState('  COD');
+    const [isPaymentOpen , setIsPaymentOpen] = useState (false)
     
     const loadCart = () => {
     const storedCart = JSON.parse(localStorage.getItem('cart')|| '[]');
@@ -64,6 +68,12 @@ value={adress}
 onChange={(value) => setAdress(value)}
 />
 
+<Input label="Phone Number" 
+placeholder='enter Phone Number'
+value={phone}
+onChange={(value) => setPhone(value)}
+/>
+
 <label>Payment Method</label>
 <select
 value={paymentMethod}
@@ -71,16 +81,71 @@ onChange={(e) => setPaymentMethod(e.target.value)}
 className='px-2 w-full border border-gray-300 focus:outline-none rounded-md my-3'
 >
 <option value="COD">Cash on Delivery</option>
-<option value="Online">Online</option>
+<option value="UPI">UPI</option>
 </select>
 
 <div className='flex justify-center '>
-<Button label="Complet Order" onClick={onClose} varient="primary"></Button>
+<Button label="Complet Order" 
+onClick={()=>{
+  setIsCheckoutOpen(false)
+  setIsPaymentOpen(true)
+}}
+
+varient="primary">
+</Button>
 </div>
             </div>
         </div>
       )
+    };
+
+    const placeOrder =async () => {
+      const orderBody = {
+        "products":cart.map((product) => ({
+          "productId": product.productId,
+          "quantity": product.quantity,
+          "price": product.price,
+        })),
+        "deliveryAddress": adress,
+        "phone": phone,
+        "paymentMethod": paymentMethod,
+      }
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/order`,
+        orderBody,
+      {
+        headers: {
+          Authorization: jwtToken (),
+        },
+      });
+      // console.log(response.data);
+      toast.success('Order Placed Successfully');
+
+      localStorage.removeItem("cart"); //cart ko empty karne ke liye  
+      setTimeout(()=>{
+        window.location.href = '/userorders';
+      }, 2000);
     }
+
+    const PaymentDialog = ({isPaymentOpen , onClose}) => {
+      if(!isPaymentOpen) return null;
+ 
+      return(
+   <div className='fixed top-0 left-0 w-full h-full bg-white flex justify-center z-60'>
+     <div className='bg-white p-5  rounded-lg w-[400px]'>
+
+     <h1 className='text-2xl'>Complete Your Payment</h1>
+
+     <Button label="Complete Payment"
+     onClick={() => {
+      toast.success('Payment Successfull');
+      placeOrder();
+     }}
+     varient="primary"></Button>
+ </div>
+   </div>
+      );
+ };
+    
 
   return (
     <div>
@@ -121,6 +186,13 @@ className='px-2 w-full border border-gray-300 focus:outline-none rounded-md my-3
       <CheckoutDialog 
       isOpen={isCheckoutOpen} 
       onClose={()=>{setIsCheckoutOpen(false)}}/>
+
+<PaymentDialog
+        isPaymentOpen={isPaymentOpen}
+        onClose={() => {
+          setIsPaymentOpen(false);
+        }}
+      />
       <Toaster/>
     </div>
   )

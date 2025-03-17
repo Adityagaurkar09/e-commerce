@@ -4,6 +4,7 @@ import Input from '../components/input.js'
 import Button from '../components/Button.js'
 import {getCurrentUser} from "../utils/common.js"
 import axios from 'axios'
+import {api} from '../utils/common.js'
 import { Link } from 'react-router-dom'
 function Signup() {
 
@@ -25,7 +26,7 @@ function Signup() {
                  toast.dismiss()
             
           try{
-            const response = await axios.post(`${process.env.REACT_APP_API_URL}/signup`,signupData)
+            const response = await api.post(`/signup`,signupData)
             console.log(response)
  
             toast.dismiss()

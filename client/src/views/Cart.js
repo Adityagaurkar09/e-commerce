@@ -3,7 +3,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import Input from '../components/input';
 import Button from '../components/Button';
 import axios from 'axios';
-import { jwtToken } from "../utils/common"
+import { jwtToken ,api } from "../utils/common"
 
 function Cart() {
     const [cart, setCart] = useState([]);
@@ -114,13 +114,7 @@ varient="primary">
         "phone": phone,
         "paymentMethod": paymentMethod,
       }
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/order`,
-        orderBody,
-      {
-        headers: {
-          Authorization: jwtToken (),
-        },
-      });
+      const response = await api.post(`/order`,orderBody,);
       // console.log(response.data);
       toast.success('Order Placed Successfully');
 

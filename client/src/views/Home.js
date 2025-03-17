@@ -4,6 +4,7 @@ import axios from 'axios';
 import ProductCard from '../components/ProductCard';
 import IconCart from "./../assets/cart.png"
 import { Link } from 'react-router-dom';
+import {api} from '../utils/common';
 
 function Home() {
   const [products, setProducts] = useState([]);
@@ -12,7 +13,7 @@ function Home() {
   const loadProducts = async () => {
 
     try {
-    const response = await axios.get(`${process.env.REACT_APP_API_URL}/product?limit=2&search=${search}`);
+    const response = await api.get(`/product?limit=2&search=${search}`);
     setProducts(response.data.data);
     } catch (error) {
       toast.error(error.response.data.message);

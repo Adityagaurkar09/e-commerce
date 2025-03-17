@@ -48,27 +48,30 @@ function Cart() {
       if (!isOpen) return null;
 
       return(
-        <div className='fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center'
+        <div className='fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-50'
          onClick={onClose}>
           <div className='bg-white p-5  rounded-lg w-[250px] '
 // e.stopPropagation e use kiya hai q ki parntens pe click karte hai toh dialog close nahi hona chahiye 
 
           onClick={(e) => e.stopPropagation()}>
           <h2>CheckOut view</h2>
-
+         
 <Input label="name" 
+type='text'
 placeholder='enter name'
 value={name}
 onChange={(value) => setName(value)}
 />
 
 <Input label="adress" 
+type='text'
 placeholder='enter adress'
 value={adress}
 onChange={(value) => setAdress(value)}
 />
 
 <Input label="Phone Number" 
+type='text'
 placeholder='enter Phone Number'
 value={phone}
 onChange={(value) => setPhone(value)}
@@ -96,6 +99,7 @@ varient="primary">
 </div>
             </div>
         </div>
+        
       )
     };
 

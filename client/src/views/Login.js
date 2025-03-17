@@ -4,7 +4,7 @@ import Input from '../components/input.js'
 import Button from '../components/Button.js'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
-import { getCurrentUser } from '../utils/common.js'
+import { getCurrentUser , api } from '../utils/common.js'
 // import { set } from 'mongoose'
 function Login() {
 
@@ -19,7 +19,7 @@ function Login() {
           toast.loading("Please wait...")
           
           try{
-            const response = await axios.post(`${process.env.REACT_APP_API_URL}/login`,loginData)
+            const response = await api.post(`/login`,loginData)
 
             localStorage.setItem("e-commerce-user-token", response.data.token)
             localStorage.setItem("e-commerce-user-details", JSON.stringify(response.data.data))

@@ -134,6 +134,8 @@ const postLogin = async (req , res) => {
         const jwtToken = jwt.sign(userDetail,process.env.JWT_SECRET);
         res.setHeader("Authorization",`Bearer ${jwtToken}`)
 
+        req.session.jwtToken = jwtToken;
+
          return res.json({
             success:true,
             token:jwtToken,
@@ -141,10 +143,8 @@ const postLogin = async (req , res) => {
              message:"Loging succesfull"
              }); 
             }
-
-            else{
+             else{
                 return responder (res, false, "invalid candidet", 400) }
-
  }
 
 export{postSignup , postLogin}

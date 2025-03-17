@@ -1,3 +1,5 @@
+import axios from "axios";
+
 const UserDetailRow = ({ icon, value }) => {
     return(
         <p className='flex items-center mb-4 text-xl '> {icon}<span className='ms-4'/>{value}</p>
@@ -54,4 +56,9 @@ const getReadableTimeStamp = (date) => {
      return shortText;
   }
 
-export { getCurrentUser, jwtToken, logout ,UserDetailRow ,getReadableTimeStamp, shortText }
+  const api = axios.create({
+    baseURL: process.env.REACT_APP_API_URL,
+    withCredentials: true,
+  })
+
+export { getCurrentUser, jwtToken, logout ,UserDetailRow ,getReadableTimeStamp, shortText , api }

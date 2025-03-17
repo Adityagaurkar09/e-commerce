@@ -1,5 +1,5 @@
 import React, { useEffect,useState } from 'react'
-import { getCurrentUser, getReadableTimeStamp, jwtToken } from '../utils/common';
+import { getCurrentUser, getReadableTimeStamp, api} from '../utils/common';
 import toast from 'react-hot-toast';
 import axios from 'axios';
 import OrderCard from '../components/OrderCard';
@@ -15,15 +15,9 @@ import OrderCard from '../components/OrderCard';
       }
       try {
           // agr id hai to order ki api call kro
-        const response = await axios.get(`${process.env.REACT_APP_API_URL}/order/user/${user._id}`,
+        const response = await api.get(`\/order/user/${user._id}`,
         // jwtToken chahie es lie
-       
-        {
-          headers: {
-            // Authorization: `Bearer ${jwtToken()}`,
-            Authorization: jwtToken(),
-          }
-        });
+       );
         
         setOrders(response.data.data);
       }

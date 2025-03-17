@@ -3,7 +3,7 @@
 //jwt middleware use for login reqired //
 
 const jwtMiddleware = async(req,res,next)=>{
-    const jwtToken = req.headers?.authorization?.split(" ")[1];
+    const jwtToken = req.session.jwtToken; // direct session se read kro
 
     if(!jwtToken){
         return res.status(401).json({

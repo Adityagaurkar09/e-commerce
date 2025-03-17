@@ -3,6 +3,7 @@ import nodemon from 'nodemon'
 import dotenv from 'dotenv'
 import cors from 'cors'
 import mongoose from 'mongoose'
+import session from 'express-session'
 dotenv.config();
 
 import {postSignup, postLogin} from './controllers/user.js'
@@ -16,7 +17,14 @@ import { responder} from '../server/utils/utils.js'
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cors(
+    {
+        origin : "http://localhost:3000",
+        credentials : true,
+    }
+));
+app.use(session({ secret : "test secret", 
+cookie : {maxAge: 1000 * 60 * 60 ,  httpOnly : false , secure : false} }))
 
 
 //conect to mongodb
@@ -28,13 +36,13 @@ const conectDB = async()=>{
         console.log("mongoose conectd succesfull")
     }
 };
-app.get("/health",(req,res)=>{
+app.get("/health",jwtMiddleware , (req,res)=>{
     // res.json({
     //     success:true,
     //     message:"server is runing"
+    // req.session.user = {id : "1234" , name : "test"}
     return responder (res,true,"server is runing")
     })
-
 
 //auth
 app.post("/signup",postSignup);

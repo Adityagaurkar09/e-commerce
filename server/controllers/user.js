@@ -1,32 +1,14 @@
-import bcrypt from 'bcrypt'
+
 import User from '../models/User.js'
-import jwt from 'jsonwebtoken'
-import { responder } from '../utils/utils.js';
 
-const postSignup = async(req,res)=>{
-    const {name, email,phone, adress, password, rePassword} = req.body;
+const postSubmit = async(req,res)=>{
+    const {name, email,phone, address} = req.body;
 
-    if(!password){
-        return res.status(400).json({
-            success:false,
-            message:"Password is required"
-            }); 
-        // return responder (res, false , "Password is required" , 400)
-    }
-
-    if(password!==rePassword){
-        return res.status(400).json({
-        success:false,
-        message:"Pasword does not match"
-        }); 
-    }
-     
     if(!name){
         return res.status(400).json({
             success:false,
             message:"name is required"
             }); 
-        // return responder (res, false , "Name is required" , 400)
     }
 
     if(!email){
@@ -34,7 +16,6 @@ const postSignup = async(req,res)=>{
             success:false,
             message:"Email is required"
             }); 
-        // return responder (res, false , "Email is required" , 400)
     }
 
     if(!phone){
@@ -42,38 +23,36 @@ const postSignup = async(req,res)=>{
             success:false,
             message:"Phone is required"
             }); 
-        // return responder (res, false , "Phone is required" , 400)
     }
 
-    if(!adress){
+    if(!address){
         return res.status(400).json({
             success:false,
-            message:"Adress is required"
+            message:"address is required"
             }); 
-        // return responder (res, false , "Adress is required" , 400)
     }
 
-     const salt = bcrypt.genSaltSync(10)
     
-    try{
-    const newUser =new User({
+    try{     
+        //etna data store krenge
+    const newUser =new User({      
         name,
         email,
         phone,
-        adress,
-        password:bcrypt.hashSync(password,salt)
+        address,
     })
 
     const savedUser = await newUser.save();
 
     return res.json({
         success:true,
-        message:"signup succesfull , Please login",
-        data:{
+        message:"Submit succesfull",
+         //etna hi data user ko dikaenge
+        data:{ 
             name: savedUser.name,
             email: savedUser.email,
             phone: savedUser.phone,
-            adress: savedUser.adress, 
+            address: savedUser.address, 
         }
     });
 
@@ -83,68 +62,42 @@ const postSignup = async(req,res)=>{
         return res.status(400).json({
         success:false,
         message:`${Object.keys(error.keyValue)} ${Object.values(error.keyValue)} already exist`}); 
-        // return responder (res, false , `${Object.keys(error.keyValue)} ${Object.values(error.keyValue)} already exist` , 400)
     }
         return res.status(400).json({
         success:false,
         message:error.message
         }); 
-    // return responder (res, false , error.message , 400)
 }};
 
+// const getUsers = async (req, res) => {
+  
+//     const users = await User.find(); // database se data lenga 
+//     res.status(200).json({
+//       success: true,
+//       data: users,
+//       message: "Users fetched successfully",
+//     });
+  
+//   }
 
 
-const postLogin = async (req , res) => {
-    const {email , password}= req.body ;
+const getUsers = async (req, res) => {
+  try {
+    const users = await User.find();  
+    res.status(200).json({
+      success: true,
+      message: "Users fetched successfully",
+      data: users
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error"
+    });
+  }
+};
 
-    if(!email){
-        // return res.status(400).json({
-        //     success:false,
-        //     message:"Email is required"
-        //     }); 
-        return responder (res, false , "Email is required" , 400)
-    }
 
-    if(!password){
-        // return res.status(400).json({
-        //     success:false,
-        //     message:"Password is required"
-        //     }); 
-        return responder (res, false , "Password is required" , 400)
-    }
 
-    const user = await User.findOne({ email });
-    
-    if(!user){
-        // return res.status(400).json({
-        //     success:false,
-        //     message:"please signup first before loging in "
-        //     });
-         return responder (res, false , "please signup first before loging in " , 400)
-         }
 
-         const passwordMatch = bcrypt.compareSync(password , user.password)
-         const userDetail = {email: user.email ,
-             role:user.role ,
-              _id:user._id,
-               name:user.name}
-
-     if(passwordMatch){
-
-        const jwtToken = jwt.sign(userDetail,process.env.JWT_SECRET);
-        res.setHeader("Authorization",`Bearer ${jwtToken}`)
-
-        req.session.jwtToken = jwtToken;
-
-         return res.json({
-            success:true,
-            token:jwtToken,
-            data:userDetail,
-             message:"Loging succesfull"
-             }); 
-            }
-             else{
-                return responder (res, false, "invalid candidet", 400) }
- }
-
-export{postSignup , postLogin}
+export{postSubmit, getUsers }

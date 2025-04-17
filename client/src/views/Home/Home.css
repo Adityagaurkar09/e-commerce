@@ -1,0 +1,70 @@
+.container {
+    max-width: 300px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+  }
+  
+  h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  label {
+    margin-bottom: 15px;
+    color: #555;
+    font-weight: bold;
+  }
+  
+  input{
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  
+  textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+  
+  .btn {
+    margin-top: 10px;
+    padding: 10px;
+    height: 50px;
+    border: none;
+    display: flex;
+    justify-content: space-evenly;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 20px;
+  }
+  
+  .submit {
+    background-color: rgba(0, 0, 255, 0.692);
+    color: white;
+  }
+  
+  .submit:hover {
+    background-color: rgb(49, 49, 94);
+  }
+  
+  .reset {
+    background-color: #f44336;
+    color: white;
+  }
+  
+.reset:hover {
+  background-color: #d32f2f;
+}

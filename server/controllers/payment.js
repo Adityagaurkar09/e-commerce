@@ -46,7 +46,7 @@ import Payment from './../models/Payment.js';
     //     message:"payment completed successfully",
     //     data:savePayment
     //    })
-    return responder(res,true,"payment completed successfully",savePayment)
+    return responder(res,true,"payment completed successfully done",savePayment)
 
        } catch(error){return res.status(400).json({success:false, nessage:error.message})}
  };

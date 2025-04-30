@@ -4,6 +4,7 @@ import Input from '../components/input';
 import Button from '../components/Button';
 import axios from 'axios';
 import { jwtToken ,api } from "../utils/common"
+import Navbar from './Navbar'
 
 function Cart() {
     const [cart, setCart] = useState([]);
@@ -147,7 +148,9 @@ varient="primary">
 
   return (
     <div>
+      <Navbar/>
       <h1 className='text-4xl text-center'>views Cart</h1>
+      
       <div className='flex flex-wrap flex-column justify-center '>
         {cart.map((product)=>{
             const{name, image, price, productId, quantity} = product;

@@ -3,6 +3,7 @@ import { getCurrentUser, getReadableTimeStamp, api} from '../utils/common';
 import toast from 'react-hot-toast';
 import axios from 'axios';
 import OrderCard from '../components/OrderCard';
+import Navbar from './Navbar';
 
  function UserOrder() {
     const [user , setUser] = useState({});
@@ -60,6 +61,7 @@ import OrderCard from '../components/OrderCard';
 
       return(
      <div className='min-h-screen bg-gray-400  fixed top-0 left-0 w-full bg-opacity-75 z-50 justify-center items-center flex 'onClick={onClose} >
+      
       <div className='bg-white w-1/2 min-h-96 rounded-md px-5 py-2'onClick={(e)=>e.stopPropagation()}>
       <button className='text-red-500'onClick={onClose}>Close</button>
       <h1>Order details</h1>
@@ -77,20 +79,26 @@ import OrderCard from '../components/OrderCard';
 
         return(
           <div> 
+            
           <img src={images[0]} alt={name} className='w-20 h-20'/>
           <div>
           <p>{name}</p>
+          <p>₹{price} x {quantity}</p>
           </div>
           </div>
       )
       })}
+       <p className="text-lg font-bold mt-3 border-t-2 pt-4">
+            Bill Amount: ₹{totalBill}
+          </p>
       </div>
       </div>
       )
     }
   return (
     <div>
-      <h1> order</h1>
+      <Navbar/>
+      <h1 > order</h1>
       <p> current user: {user.name}-{user.email}-{user.role}</p>
       <div>
         {orders.map ((order)=>{

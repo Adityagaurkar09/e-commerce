@@ -10,6 +10,9 @@ import './index.css';
 import Dashboard from './views/Dashboard';
 import UserOrder from './views/UserOrder';
 import Cart from './views/Cart';
+import Navbar from './views/Navbar';
+
+
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -42,6 +45,11 @@ const router = createBrowserRouter([
     path : "*",
     element:<NotFound/>,
   },
+  {
+    path : 'navbar',
+    element:<Navbar/>,
+  }
+  
 ])
 
 root.render(<div className='bg-zinc-100 min-h-screen'> 

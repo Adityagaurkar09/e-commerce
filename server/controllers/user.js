@@ -9,7 +9,7 @@ const postSignup = async(req,res)=>{
     if(!password){
         return res.status(400).json({
             success:false,
-            message:"Password is required"
+            message:"Password is required done"
             }); 
         // return responder (res, false , "Password is required" , 400)
     }
